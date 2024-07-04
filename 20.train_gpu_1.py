@@ -1,5 +1,6 @@
 import torch
 import torchvision
+import time
 from torch import nn
 from torch.nn import Sequential, Conv2d, MaxPool2d, Flatten, Linear
 from torch.utils.data import DataLoader
@@ -51,7 +52,7 @@ if __name__ == '__main__':
 
 # 创建模型
 model = Coder729()
-
+model = model.cuda()
 # 损失函数
 loss_func = nn.CrossEntropyLoss()
 
@@ -65,10 +66,13 @@ test_step = 0
 
 writer = SummaryWriter("19_train_log")
 epochs = 10
+start_time = time.time()
 for epoch in range(epochs):
     print("第{}轮训练开始".format(epoch+1))
     for data in train_loader:
         imgs,targets = data
+        imgs = imgs.cuda()
+        targets = targets.cuda()
         outputs = model(imgs)
         loss = loss_func(outputs, targets)
         optimizer.zero_grad()
@@ -76,6 +80,8 @@ for epoch in range(epochs):
         optimizer.step()
         train_step += 1
         if train_step % 100 == 0:
+            end_time = time.time()
+            print(end_time-start_time)
             print('训练次数：{}，损失：{:.4f}'.format(train_step,loss))
             writer.add_scalar('train_loss', loss.item(), train_step)
 
@@ -83,6 +89,8 @@ for epoch in range(epochs):
     with torch.no_grad():
         for data in test_loader:
             imgs,targets = data
+            imgs = imgs.cuda()
+            targets = targets.cuda()
             outputs = model(imgs)
             loss = loss_func(outputs, targets)
             total_test_loss += loss

@@ -5,6 +5,7 @@ from torch.nn import Sequential, Conv2d, MaxPool2d, Flatten, Linear
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 
+device = torch.device('cuda')
 train_data = torchvision.datasets.CIFAR10(root='D:\\Deep_learning\\dataset',train=False,transform=torchvision.transforms.ToTensor(),download=False)
 test_data = torchvision.datasets.CIFAR10(root='D:\\Deep_learning\\dataset',train=False,transform=torchvision.transforms.ToTensor(),download=False)
 
@@ -51,10 +52,10 @@ if __name__ == '__main__':
 
 # 创建模型
 model = Coder729()
-
+model = model.to(device)
 # 损失函数
 loss_func = nn.CrossEntropyLoss()
-
+loss_func = loss_func.to(device)
 # 优化器
 learning_rate = 0.01
 optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
@@ -69,6 +70,8 @@ for epoch in range(epochs):
     print("第{}轮训练开始".format(epoch+1))
     for data in train_loader:
         imgs,targets = data
+        imgs = imgs.to(device)
+        targets = targets.to(device)
         outputs = model(imgs)
         loss = loss_func(outputs, targets)
         optimizer.zero_grad()
@@ -83,6 +86,8 @@ for epoch in range(epochs):
     with torch.no_grad():
         for data in test_loader:
             imgs,targets = data
+            imgs = imgs.to(device)
+            targets = targets.to(device)
             outputs = model(imgs)
             loss = loss_func(outputs, targets)
             total_test_loss += loss
