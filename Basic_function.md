@@ -119,3 +119,5 @@ self.conv1 = Conv2d(3, 6, 5,stride=1,padding=0)
  
 
 ### CrossEntropyLoss：交叉熵损失函数
+
+![image-20240709183811969](C:\Users\coder729\AppData\Roaming\Typora\typora-user-images\image-20240709183811969.png)
