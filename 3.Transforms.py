@@ -6,12 +6,12 @@ img_path = "E:\\Deep_learning\\hymenoptera_data\\train\\ants\\0013035.jpg"
 
 img = Image.open(img_path)
 
-writer = SummaryWriter("3_Transforms_Logs")
-tensor_trans = transforms.ToTensor()
-tensor_img = tensor_trans(img)
-writer.add_image("Tenser_img", tensor_img)
-
-writer.close()
+# writer = SummaryWriter("3_Transforms_Logs")
+# tensor_trans = transforms.ToTensor()
+# tensor_img = tensor_trans(img)
+# writer.add_image("Tenser_img", tensor_img)
+#
+# writer.close()
 
 # 关于transforms如何使用和为什么使用tensor数据类型的注释：  
 # 1. transforms的使用：transforms模块提供了许多预定义的转换方法，可以方便地对图片进行各种预处理操作，  
